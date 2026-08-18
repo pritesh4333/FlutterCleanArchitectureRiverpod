@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stockholding/core/constants/globalVariables.dart';
+import '../../../../core/widgets/ListSkeleton.dart';
 import '../../domain/entity/WLRequest_parmars.dart';
 import '../../domain/entity/WLResponse_parmams.dart';
 import '../controllers/wlDetails_controller.dart';
@@ -44,7 +45,7 @@ class _WatchlistScreenState extends ConsumerState<WatchlistScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Watchlist')),
       body: wlDetailsState.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const ListSkeleton(),
         error: (e, _) => Center(child: Text('Error: $e')),
         data: (result) {
           if (result == null) return const Center(child: Text('No data'));

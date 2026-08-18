@@ -9,7 +9,7 @@ import '../providers/orderBook_provider.dart';
 class OrderBookDetailsController extends AsyncNotifier<OrderBookResponseParams?> {
   @override
   Future<OrderBookResponseParams?> build() async {
-
+    await Future.delayed(const Duration(seconds: 3));
     final params = OrderBookItemRequestParmas(
       inputType: 2,
       inputValue: clientId!,
@@ -41,7 +41,7 @@ class OrderBookDetailsController extends AsyncNotifier<OrderBookResponseParams?>
 
   Future<void> getOrderBookDetails(OrderBookItemRequestParmas params) async {
     state = const AsyncLoading();
-
+    await Future.delayed(const Duration(seconds: 3));
     final useCase = ref.read(orderBookDetailsUseCaseProvider); // step 2
     final result = await useCase(params);
 

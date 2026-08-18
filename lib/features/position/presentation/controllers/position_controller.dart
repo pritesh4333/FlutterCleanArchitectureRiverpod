@@ -9,7 +9,7 @@ import '../providers/position_provider.dart';
 class PositionDetailsController extends AsyncNotifier<PositionResponseParams?> {
   @override
   Future<PositionResponseParams?> build() async {
-
+    await Future.delayed(const Duration(seconds: 3));
     final params = PositionRequestParmas(
       inputType: 2,
       inputValue: clientId!,
@@ -41,7 +41,7 @@ class PositionDetailsController extends AsyncNotifier<PositionResponseParams?> {
 
   Future<void> getPositionBookDetails(PositionRequestParmas params) async {
     state = const AsyncLoading();
-
+    await Future.delayed(const Duration(seconds: 3));
     final useCase = ref.read(positionDetailsUseCaseProvider); // step 2
     final result = await useCase(params);
 

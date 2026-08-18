@@ -9,7 +9,7 @@ import '../providers/watch_provider.dart';
 class WldetailsController extends AsyncNotifier<WlResponseParams?> {
   @override
   Future<WlResponseParams?> build() async {
-
+    await Future.delayed(const Duration(seconds: 3));
     final params = WlRequestParams(
       inputType: 2,
       inputValue: clientId!,
@@ -36,7 +36,7 @@ class WldetailsController extends AsyncNotifier<WlResponseParams?> {
 
   Future<void> getWlDetails(WlRequestParams params) async {
     state = const AsyncLoading();
-
+    await Future.delayed(const Duration(seconds: 3));
     final useCase = ref.read(wlDetailsUseCaseProvider); //step 2
     final result = await useCase(params);
 
