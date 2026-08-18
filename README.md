@@ -1,0 +1,2 @@
+# FlutterCleanArchitectureRiverpod
+FlutterCleanArchitectureRiverpod
