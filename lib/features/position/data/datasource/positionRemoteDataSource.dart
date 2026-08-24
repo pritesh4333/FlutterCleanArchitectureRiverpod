@@ -38,6 +38,8 @@ class PositionRemoteDataSourceImpl implements PositionRemoteDataSource {
     };
 
     final response = await dio.post(ApiEndpoints.getNetPosition, data: payload);
+    // Pull the same requestId your interceptor generated for this call
+    final requestId = response.requestOptions.extra['requestId'] ?? 'UNKNOWN';
     final rawJson = response.data as Map<String, dynamic>;
 
     final status = rawJson['status'] as String? ?? '';
@@ -53,8 +55,8 @@ class PositionRemoteDataSourceImpl implements PositionRemoteDataSource {
       rawJson['iv'] as String,
       body.iv,
     );
-
-    final decryptedList = jsonDecode(decryptedJsonString) as List<dynamic>;
+    print('[$requestId] 🔓 Decrypted Response: $decryptedJsonString');
+     final decryptedList = jsonDecode(decryptedJsonString) as List<dynamic>;
 
     return PositionResponseModel.fromDecrypted(
       rawJson: rawJson,

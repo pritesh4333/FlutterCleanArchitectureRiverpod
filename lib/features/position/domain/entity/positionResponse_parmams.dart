@@ -48,13 +48,13 @@ class PositonItem {
   int totBuyVal;
   int buyAvg;
   int totSellQty;
-  int totSellVal;
-  int sellAvg;
+  double totSellVal;
+  double sellAvg;
   int netQty;
-  int netVal;
-  int netAvg;
+  double netVal;
+  double netAvg;
   int grossQty;
-  int grossVal;
+  double grossVal;
   String segment;
   String mktType;
   String product;
@@ -77,7 +77,7 @@ class PositonItem {
   String series;
   String displayName;
   String exchangeInstName;
-  int costPrice;
+  double costPrice;
   String underlaying;
   String fullSymbol;
   String refId;

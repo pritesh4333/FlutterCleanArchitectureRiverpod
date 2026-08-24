@@ -72,6 +72,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     };
 
     final response = await dio.post(ApiEndpoints.getWLDetails, data: payload);
+    // Pull the same requestId your interceptor generated for this call
+    final requestId = response.requestOptions.extra['requestId'] ?? 'UNKNOWN';
     final rawJson = response.data as Map<String, dynamic>;
 
     final status = rawJson['status'] as String? ?? '';
@@ -87,6 +89,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       rawJson['iv'] as String,
       body.iv,
     );
+    print('[$requestId] 🔓 Decrypted Response: $decryptedJsonString');
 
     final decryptedList = jsonDecode(decryptedJsonString) as List<dynamic>;
 
