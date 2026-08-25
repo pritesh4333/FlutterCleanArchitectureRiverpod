@@ -45,15 +45,7 @@ class WlRequestModelParams {
     data: WlRequestDataModel.fromJson(json["data"]),
   );
 
-  Map<String, dynamic> toJson() => {
-    "inputType": inputType,
-    "inputValue": inputValue,
-    "dob": dob,
-    "source": source,
-    "token_id": tokenId,
-    "iv": iv,
-    "data": data.toJson(),
-  };
+
 }
 
 class WlRequestDataModel { // ← renamed from Data
