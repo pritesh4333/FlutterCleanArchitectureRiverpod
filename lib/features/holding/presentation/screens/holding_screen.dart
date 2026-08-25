@@ -18,7 +18,6 @@ class _HoldingScreenState extends ConsumerState<HoldingScreen> {
   Widget build(BuildContext context) {
     final holdingDetailsState = ref.watch(holdingDetailsControllerProvider);
 
-
     return Scaffold(
       appBar: AppBar(title: const Text('Holding')),
       body: holdingDetailsState.when(

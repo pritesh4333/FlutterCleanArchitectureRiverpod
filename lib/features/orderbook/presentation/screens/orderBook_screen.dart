@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../controllers/orderBook_controller.dart';
 
@@ -11,7 +12,6 @@ class OrderBookScreen extends ConsumerStatefulWidget {
 }
 
 class _OrderBookScreenScreenState extends ConsumerState<OrderBookScreen> {
-
   @override
   Widget build(BuildContext context) {
     final wlDetailsState = ref.watch(orderBokDetailsControllerProvider);
@@ -24,8 +24,9 @@ class _OrderBookScreenScreenState extends ConsumerState<OrderBookScreen> {
         data: (result) {
           if (result == null) return const Center(child: Text('No data'));
           if (!result.isSuccess) return Center(child: Text(result.message));
-          if (result.items.isEmpty)
+          if (result.items.isEmpty) {
             return const Center(child: Text('No instruments found'));
+          }
 
           return ListView.builder(
             itemCount: result.items.length,
@@ -38,6 +39,9 @@ class _OrderBookScreenScreenState extends ConsumerState<OrderBookScreen> {
                   '${item.price}',
                   style: const TextStyle(fontSize: 12),
                 ),
+                onTap: () {
+                  context.pushNamed('orderBookDetail', extra: item);
+                },
               );
             },
           );
