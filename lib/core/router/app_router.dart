@@ -37,7 +37,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: RouteNames.statetesting,
-        builder: (context, state) => const StateTesing(),
+        builder: (context, state) => const StateTesting(),
       ),
       GoRoute(
         path: '/order-book/detail',
