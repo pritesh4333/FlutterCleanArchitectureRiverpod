@@ -20,12 +20,7 @@ class _PositionScreenState extends ConsumerState<PositionScreen> {
     final positionDetailsState = ref.watch(positionControllerProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Position'),
-        backgroundColor: Theme.of(context).colorScheme.surface, // pin explicitly
-        surfaceTintColor: Colors.transparent,
-        shadowColor: Colors.transparent,
-        scrolledUnderElevation: 0, // prevents elevation change on scroll
-         ),
+
       body: positionDetailsState.when(
         loading: () => const ListSkeleton(),
         error: (e, _) => Center(child: Text('Error: $e')),
@@ -41,9 +36,9 @@ class _PositionScreenState extends ConsumerState<PositionScreen> {
               final item = result.items[index];
               return ListTile(
                 title: Text(item.symbol),
-                subtitle: Text('${item.exchange} • ${item.instrument}'),
+                subtitle: Text('${item.exchange} • ${item.buyAvg}'),
                 trailing: Text(
-                  '${item.costPrice}',
+                  '${item.grossQty}',
                   style: const TextStyle(fontSize: 12),
                 ),
               );

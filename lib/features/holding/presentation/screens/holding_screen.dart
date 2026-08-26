@@ -19,11 +19,6 @@ class _HoldingScreenState extends ConsumerState<HoldingScreen> {
     final holdingDetailsState = ref.watch(holdingDetailsControllerProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Holding'),  backgroundColor: Theme.of(context).colorScheme.surface, // pin explicitly
-        surfaceTintColor: Colors.transparent,
-        shadowColor: Colors.transparent,
-        scrolledUnderElevation: 0, // prevents elevation change on scroll),
-      ),
       body: holdingDetailsState.when(
         loading: () => const ListSkeleton(),
         error: (e, _) => Center(child: Text('Error: $e')),

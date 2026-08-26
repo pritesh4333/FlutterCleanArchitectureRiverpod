@@ -24,11 +24,78 @@ class HomeScreen extends ConsumerWidget {
     HoldingScreen(),
   ];
 
+  static const List<_NavData> _navItems = [
+    _NavData(icon: Icons.visibility, label: 'Watchlist'),
+    _NavData(icon: Icons.receipt_long, label: 'Orderbook'),
+    _NavData(icon: Icons.calendar_month, label: 'Sipbook'),
+    _NavData(icon: Icons.trending_up, label: 'Position'),
+    _NavData(icon: Icons.account_balance_wallet, label: 'Holding'),
+  ];
+
+  // shared by both BottomNavigationBar and Drawer taps
+  void _onSelectTab(WidgetRef ref, int selectedIndex, int index) {
+    if (selectedIndex == index) return;
+
+    ref.read(bottomNavProvider.notifier).changeTab(index);
+    switch (index) {
+      case 0:
+        ref.invalidate(wlDetailsControllerProvider);
+        break;
+      case 1:
+        ref.invalidate(orderBokDetailsControllerProvider);
+        break;
+      case 2:
+        ref.invalidate(sipBookDetailsControllerProvider);
+        break;
+      case 3:
+        ref.invalidate(positionControllerProvider);
+        break;
+      case 4:
+        ref.invalidate(holdingDetailsControllerProvider);
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedIndex = ref.watch(bottomNavProvider);
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surface, // pin explicitly
+        surfaceTintColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        scrolledUnderElevation: 0,
+        title: Text(_navItems[selectedIndex].label),
+        foregroundColor: Colors.black,
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(color: Colors.blue),
+              child: Text(
+                'Stock Holding',
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+            ),
+            ...List.generate(_navItems.length, (index) {
+              final item = _navItems[index];
+              return ListTile(
+                leading: Icon(item.icon),
+                title: Text(item.label),
+                selected: selectedIndex == index,
+                selectedTileColor: Colors.blue.withOpacity(0.1),
+                onTap: () {
+                  _onSelectTab(ref, selectedIndex, index);
+                  Navigator.pop(context); // close drawer after selecting
+                },
+              );
+            }),
+          ],
+        ),
+      ),
       body: IndexedStack(index: selectedIndex, children: _pages),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -36,36 +103,20 @@ class HomeScreen extends ConsumerWidget {
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.grey,
         currentIndex: selectedIndex,
-        onTap: (index) {
-          if (selectedIndex != index) {
-            ref.read(bottomNavProvider.notifier).changeTab(index);
-            switch (index) {
-              case 0:
-                ref.invalidate(wlDetailsControllerProvider);
-                break;
-              case 1:
-                ref.invalidate(orderBokDetailsControllerProvider);
-                break;
-              case 2:
-                ref.invalidate(sipBookDetailsControllerProvider);
-                break;
-              case 3:
-                ref.invalidate(positionControllerProvider);
-                break;
-              case 4:
-                ref.invalidate(holdingDetailsControllerProvider);
-                break;
-            }
-          }
-        },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.visibility), label: 'Watchlist'),
-          BottomNavigationBarItem(icon: Icon(Icons.receipt_long), label: 'Orderbook'),
-          BottomNavigationBarItem(icon: Icon(Icons.calendar_month), label: 'Sipbook'),
-          BottomNavigationBarItem(icon: Icon(Icons.trending_up), label: 'Position'),
-          BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet), label: 'Holding'),
-        ],
+        onTap: (index) => _onSelectTab(ref, selectedIndex, index),
+        items: _navItems
+            .map((item) => BottomNavigationBarItem(
+          icon: Icon(item.icon),
+          label: item.label,
+        ))
+            .toList(),
       ),
     );
   }
+}
+
+class _NavData {
+  final IconData icon;
+  final String label;
+  const _NavData({required this.icon, required this.label});
 }

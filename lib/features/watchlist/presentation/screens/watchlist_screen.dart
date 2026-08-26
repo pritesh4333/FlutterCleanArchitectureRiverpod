@@ -60,12 +60,6 @@ class _WatchlistScreenState extends ConsumerState<WatchlistScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Watchlist'),
-        backgroundColor: Theme.of(context).colorScheme.surface, // pin explicitly
-        surfaceTintColor: Colors.transparent,
-        shadowColor: Colors.transparent,
-        scrolledUnderElevation: 0,
-      ),
       body: wlDetailsState.when(
         loading: () => const ListSkeleton(),
         error: (e, _) => Center(child: Text('Error: $e')),

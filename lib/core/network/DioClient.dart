@@ -84,7 +84,7 @@ class _RequestIdInterceptor extends Interceptor {
     print(
       '[$requestId] ← ${response.statusCode} '
           '${response.requestOptions.method} '
-          '${response.requestOptions.uri}',
+
     );
 
     print('[$requestId] ← Response: ${response.data}');

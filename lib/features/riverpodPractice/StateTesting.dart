@@ -11,7 +11,12 @@ class StateTesting extends ConsumerWidget {
     final listNames = ref.watch(nameListProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Riverpod')),
+      appBar: AppBar(title: const Text('Riverpod'),
+        backgroundColor: Theme.of(context).colorScheme.surface, // pin explicitly
+        surfaceTintColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        scrolledUnderElevation: 0,
+      ),
       body: Column(
         children: [
           Text(currentName, style: const TextStyle(fontSize: 24)),

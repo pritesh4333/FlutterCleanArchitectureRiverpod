@@ -36,13 +36,6 @@ class _SipBookScreenState extends ConsumerState<SipBookScreen> {
     final sipBookState = ref.watch(sipBookDetailsControllerProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('SIP Book'),
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        surfaceTintColor: Colors.transparent,
-        shadowColor: Colors.transparent,
-        scrolledUnderElevation: 0,
-      ),
       body: sipBookState.when(
         loading: () => const ListSkeleton(),
         error: (e, _) => Center(child: Text('Error: $e')),
