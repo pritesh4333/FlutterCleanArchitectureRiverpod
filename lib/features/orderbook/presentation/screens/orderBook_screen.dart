@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/widgets/ListSkeleton.dart';
 
 import '../controllers/orderBook_controller.dart';
 import '../providers/orderBook_search_provider.dart';
@@ -42,7 +43,7 @@ class _OrderBookScreenScreenState extends ConsumerState<OrderBookScreen> {
         scrolledUnderElevation: 0,
       ),
       body: wlDetailsState.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const ListSkeleton(),
         error: (e, _) => Center(child: Text('Error: $e')),
         data: (result) {
           if (result == null) return const Center(child: Text('No data'));

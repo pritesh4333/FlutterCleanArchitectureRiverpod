@@ -7,6 +7,8 @@ import '../../features/login/presentation/controllers/authenticate_controller.da
 import '../../features/login/presentation/screens/LoginScreen.dart';
 import '../../features/orderbook/domain/entity/orderBookResponse_parmams.dart';
 import '../../features/orderbook/presentation/screens/OrderBookDetailScreen.dart';
+import '../../features/sipbook/domain/entity/sipBookResponse_params.dart';
+import '../../features/sipbook/presentation/screens/SipBookDetailScreen.dart';
 import 'route_names.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -44,6 +46,20 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             );
           }
           return OrderBookDetailScreen(item: item);
+        },
+      ),
+      GoRoute(
+        path: '/sip-book/detail',
+        name: 'sipBookDetail',
+        builder: (context, state) {
+          final item = state.extra as SipBookItem?;
+          if (item == null) {
+            // guard against direct URL access / bad deep link
+            return const Scaffold(
+              body: Center(child: Text('No SIP data provided')),
+            );
+          }
+          return SipBookDetailScreen(item: item);
         },
       ),
     ],

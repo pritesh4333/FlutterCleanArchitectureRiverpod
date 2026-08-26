@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/widgets/ListSkeleton.dart';
 import 'package:stockholding/features/position/presentation/providers/position_provider.dart';
 
 import '../controllers/position_controller.dart';
@@ -26,7 +27,7 @@ class _PositionScreenState extends ConsumerState<PositionScreen> {
         scrolledUnderElevation: 0, // prevents elevation change on scroll
          ),
       body: positionDetailsState.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const ListSkeleton(),
         error: (e, _) => Center(child: Text('Error: $e')),
         data: (result) {
           if (result == null) return const Center(child: Text('No data'));

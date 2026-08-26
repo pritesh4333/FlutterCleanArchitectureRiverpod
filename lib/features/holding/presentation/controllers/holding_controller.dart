@@ -9,16 +9,23 @@ import '../providers/holding_provider.dart';
 class HoldingDetailsController extends AsyncNotifier<HoldingResponseParams?> {
   @override
   Future<HoldingResponseParams?> build() async {
-    // await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 3));
     final params = HoldingRequestParams(
       inputType: 2,
-      inputValue: clientId!,
-      dob: dob!,
+      inputValue: clientId ?? '',
+      dob: dob ?? '',
       source: 'M',
-      tokenId: tokenID!,
-      iv: iV!,
-      data: Data(requestDateTime: '', merchantCode: '', holdingType: 'equity', isin: '', messageSeq: '', dpid: '12090700', dpName: 'CDSL', dpAccount: '1209070000070098'
-
+      tokenId: tokenID ?? '',
+      iv: iV ?? '',
+      data: Data(
+        requestDateTime: '',
+        merchantCode: '',
+        holdingType: 'equity',
+        isin: '',
+        messageSeq: '',
+        dpid: '12090700',
+        dpName: 'CDSL',
+        dpAccount: '1209070000070098',
       ),
     );
 
