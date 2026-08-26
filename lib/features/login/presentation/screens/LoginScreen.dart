@@ -267,6 +267,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             : const Text('Login'),
                       ),
                     ),
+                    const SizedBox(height: 16),
+                    SizedBox(
+                      height: 48,
+                      child: ElevatedButton(
+                        onPressed: (){
+                          context.push(RouteNames.statetesting);
+                        },
+                        child:  const Text('Riverpod Testing'),
+                      ),
+                    ),
                   ],
                 ),
               ),

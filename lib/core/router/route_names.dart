@@ -6,4 +6,5 @@ class RouteNames {
   static const orderbook= '/orderbook';
   static const sipbook= '/sipbook';
   static const homescreen= '/homescreen';
+  static const statetesting= '/statetesting';
 }

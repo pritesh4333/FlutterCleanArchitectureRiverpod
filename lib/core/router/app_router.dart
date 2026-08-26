@@ -7,6 +7,7 @@ import '../../features/login/presentation/controllers/authenticate_controller.da
 import '../../features/login/presentation/screens/LoginScreen.dart';
 import '../../features/orderbook/domain/entity/orderBookResponse_parmams.dart';
 import '../../features/orderbook/presentation/screens/OrderBookDetailScreen.dart';
+import '../../features/riverpodPractice/StateTesting.dart';
 import '../../features/sipbook/domain/entity/sipBookResponse_params.dart';
 import '../../features/sipbook/presentation/screens/SipBookDetailScreen.dart';
 import 'route_names.dart';
@@ -33,6 +34,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: RouteNames.homescreen,
         builder: (context, state) => const HomeScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.statetesting,
+        builder: (context, state) => const StateTesing(),
       ),
       GoRoute(
         path: '/order-book/detail',
