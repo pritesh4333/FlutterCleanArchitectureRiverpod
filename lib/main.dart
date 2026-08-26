@@ -622,6 +622,7 @@ class MyApp extends ConsumerWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       routerConfig: router,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

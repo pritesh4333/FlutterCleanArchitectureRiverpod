@@ -6,6 +6,7 @@ import '../../domain/entity/orderBookResponse_parmams.dart';
 
 import '../providers/orderBook_provider.dart';
 
+
 class OrderBookDetailsController extends AsyncNotifier<OrderBookResponseParams?> {
   @override
   Future<OrderBookResponseParams?> build() async {

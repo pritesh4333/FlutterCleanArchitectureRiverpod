@@ -9,7 +9,12 @@ class OrderBookDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(item.symbol)),
+      appBar: AppBar(title: Text(item.symbol),
+        backgroundColor: Theme.of(context).colorScheme.surface, // pin explicitly
+        surfaceTintColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        scrolledUnderElevation: 0, // prevents elevation change on scroll
+      ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [

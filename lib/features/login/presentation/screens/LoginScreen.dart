@@ -163,7 +163,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     });
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
+      appBar: AppBar(title: const Text('Login'),
+        backgroundColor: Theme.of(context).colorScheme.surface, // pin explicitly
+        surfaceTintColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        scrolledUnderElevation: 0, // prevents elevation change on scroll
+      ),
+
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(

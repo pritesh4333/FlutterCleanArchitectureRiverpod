@@ -10,7 +10,12 @@ import '../../../position/presentation/screens/position_screen.dart';
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
-  static const List<Widget> _pages = [WatchlistScreen(), OrderBookScreen(),PositionScreen(),HoldingScreen()];
+  static const List<Widget> _pages = [
+    WatchlistScreen(),
+    OrderBookScreen(),
+    PositionScreen(),
+    HoldingScreen(),
+  ];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,22 +33,10 @@ class HomeScreen extends ConsumerWidget {
           ref.read(bottomNavProvider.notifier).changeTab(index);
         },
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.visibility),
-            label: 'Watchlist',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.receipt_long),
-            label: 'Orderbook',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.trending_up),
-            label: 'Position',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance_wallet),
-            label: 'Holding',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.visibility), label: 'Watchlist'),
+          BottomNavigationBarItem(icon: Icon(Icons.receipt_long), label: 'Orderbook'),
+          BottomNavigationBarItem(icon: Icon(Icons.trending_up), label: 'Position'),
+          BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet), label: 'Holding'),
         ],
       ),
     );
