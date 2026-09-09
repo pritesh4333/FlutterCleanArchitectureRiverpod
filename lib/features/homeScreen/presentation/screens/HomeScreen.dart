@@ -15,6 +15,7 @@ import 'package:stockholding/features/watchlist/presentation/controllers/wlDetai
 import 'package:stockholding/features/watchlist/presentation/screens/watchlist_screen.dart';
 
 import '../../../position/presentation/screens/position_screen.dart';
+import '../../../theam/presentation/providers/theme_providers.dart';
 import 'ExitConfirmationWrapper.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -73,26 +74,28 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedIndex = ref.watch(bottomNavProvider);
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     return ExitConfirmationWrapper(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.surface, // pin explicitly
+          backgroundColor: colorScheme.surface,
           surfaceTintColor: Colors.transparent,
           shadowColor: Colors.transparent,
           scrolledUnderElevation: 0,
           title: Text(_navItems[selectedIndex].label),
-          foregroundColor: Colors.black,
+          foregroundColor: colorScheme.onSurface, // ✅ adapts to light/dark
         ),
         drawer: Drawer(
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
-              const DrawerHeader(
-                decoration: BoxDecoration(color: Colors.blue),
+              DrawerHeader(
+                decoration: BoxDecoration(color: colorScheme.primary),
                 child: Text(
                   'Stock Holding',
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+                  style: TextStyle(color: colorScheme.onPrimary, fontSize: 20),
                 ),
               ),
               ...List.generate(_navItems.length, (index) {
@@ -101,29 +104,41 @@ class HomeScreen extends ConsumerWidget {
                   leading: Icon(item.icon),
                   title: Text(item.label),
                   selected: selectedIndex == index,
-                  selectedTileColor: Colors.blue.withOpacity(0.1),
+                  selectedTileColor: colorScheme.primary.withOpacity(0.1), // ✅
                   onTap: () {
-                    Navigator.pop(context); // close drawer after selecting
-                    _onSelectTab(context,ref, selectedIndex, index);
+                    Navigator.pop(context);
+                    _onSelectTab(context, ref, selectedIndex, index);
                   },
                 );
               }),
+              const Divider(),
+              Consumer(
+                builder: (context, ref, _) {
+                  final themeMode = ref.watch(themeControllerProvider);
+                  final isDark = themeMode == ThemeMode.dark;
+                  return SwitchListTile(
+                    secondary: Icon(isDark ? Icons.dark_mode : Icons.light_mode),
+                    title: const Text('Dark Mode'),
+                    value: isDark,
+                    onChanged: (value) {
+                      ref.read(themeControllerProvider.notifier).toggleTheme(value);
+                    },
+                  );
+                },
+              ),
             ],
           ),
         ),
         body: IndexedStack(index: selectedIndex, children: _pages),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.white,
-          selectedItemColor: Colors.blue,
-          unselectedItemColor: Colors.grey,
+          backgroundColor: colorScheme.surface,      // ✅ adapts
+          selectedItemColor: colorScheme.primary,     // ✅ adapts
+          unselectedItemColor: colorScheme.onSurface.withOpacity(0.6), // ✅ adapts
           currentIndex: selectedIndex,
-          onTap: (index) => _onSelectTab(context,ref, selectedIndex, index),
+          onTap: (index) => _onSelectTab(context, ref, selectedIndex, index),
           items: _navItems
-              .map((item) => BottomNavigationBarItem(
-            icon: Icon(item.icon),
-            label: item.label,
-          ))
+              .map((item) => BottomNavigationBarItem(icon: Icon(item.icon), label: item.label))
               .toList(),
         ),
       ),

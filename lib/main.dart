@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'core/router/app_router.dart';
+import 'features/theam/presentation/providers/theme_providers.dart';
 
 void main() {
   print('--- 1. Array Reverse ---');
@@ -615,12 +616,12 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterProvider);
-
+    final themeMode = ref.watch(themeControllerProvider);
     return MaterialApp.router(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
+      themeMode: themeMode,
+      theme: ThemeData(brightness: Brightness.light, useMaterial3: true),
+      darkTheme: ThemeData(brightness: Brightness.dark, useMaterial3: true),
       routerConfig: router,
       debugShowCheckedModeBanner: false,
     );
