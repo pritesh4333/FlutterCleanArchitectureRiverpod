@@ -137,9 +137,10 @@ class HomeScreen extends ConsumerWidget {
           unselectedItemColor: colorScheme.onSurface.withOpacity(0.6), // ✅ adapts
           currentIndex: selectedIndex,
           onTap: (index) => _onSelectTab(context, ref, selectedIndex, index),
-          items: _navItems
-              .map((item) => BottomNavigationBarItem(icon: Icon(item.icon), label: item.label))
+          items:_navItems.sublist(0, _navItems.length - 1).
+              map((item) => BottomNavigationBarItem(icon: Icon(item.icon), label: item.label))
               .toList(),
+
         ),
       ),
     );

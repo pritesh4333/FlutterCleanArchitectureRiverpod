@@ -36,6 +36,10 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
     if (value.isEmpty && index > 0) {
       _focusNodes[index - 1].requestFocus();
     }
+    if(index==5){
+      FocusScope.of(context).unfocus();
+      ref.read(otpControllerProvider.notifier).submitOtp(_enteredOtp);
+    }
   }
 
   void _submit() {
