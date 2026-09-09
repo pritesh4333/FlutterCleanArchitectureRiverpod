@@ -1,16 +1,7 @@
-import '../../data/model/positionResponseModel.dart';
-
 // ---------- Safe parsing helpers ----------
 // APIs are inconsistent about returning 0 as int vs 0.0 as double,
 // or numbers as strings — these guards prevent type-cast crashes.
 
-double _parseDouble(dynamic value) {
-  if (value == null) return 0.0;
-  if (value is double) return value;
-  if (value is int) return value.toDouble();
-  if (value is String) return double.tryParse(value) ?? 0.0;
-  return 0.0;
-}
 
 int _parseInt(dynamic value) {
   if (value == null) return 0;
@@ -78,7 +69,7 @@ class PositonItem {
   String symbol;
   String exchange;
   String strikePrice;
-  double buyAvg;
+  int buyAvg;
   int grossQty;
 
   ExchangeIdentityItem exchangeIdentity;
@@ -102,7 +93,7 @@ class PositonItem {
       exchange: _parseString(json['exchange']),
       strikePrice: _parseString(json['strike_price']),
 
-      buyAvg: _parseDouble(json['buy_avg']),
+      buyAvg: _parseInt(json['buy_avg']),
 
       grossQty: _parseInt(json['gross_qty']),
 

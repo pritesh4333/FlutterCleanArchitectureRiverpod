@@ -22,7 +22,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final _clientIdController = TextEditingController(text: "EKS560743");
-  final _passwordController = TextEditingController(text: "Bse@1234");
+  final _passwordController = TextEditingController(text: "Sep@2026");
   final _dobController = TextEditingController(text: "20/08/1980"); // stored as DD-MM-YYYY
 
   bool _obscurePassword = true;
