@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stockholding/features/HomeScreen/presentation/screens/HomeScreen.dart';
+import 'package:stockholding/features/login/presentation/screens/OtpScreen.dart';
 
 import '../../features/login/presentation/controllers/authenticate_controller.dart';
 import '../../features/login/presentation/screens/LoginScreen.dart';
@@ -30,6 +31,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: RouteNames.login,
         builder: (context, state) => const LoginScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.otpscreen,
+        builder: (context, state) => const OtpScreen(),
       ),
       GoRoute(
         path: RouteNames.homescreen,

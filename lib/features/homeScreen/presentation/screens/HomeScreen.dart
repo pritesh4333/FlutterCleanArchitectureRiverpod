@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:stockholding/features/HomeScreen/presentation/controllers/home_screen_controllers.dart';
 import 'package:stockholding/features/holding/presentation/controllers/holding_controller.dart';
 import 'package:stockholding/features/holding/presentation/screens/holding_screen.dart';
@@ -12,6 +15,7 @@ import 'package:stockholding/features/watchlist/presentation/controllers/wlDetai
 import 'package:stockholding/features/watchlist/presentation/screens/watchlist_screen.dart';
 
 import '../../../position/presentation/screens/position_screen.dart';
+import 'ExitConfirmationWrapper.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -30,12 +34,21 @@ class HomeScreen extends ConsumerWidget {
     _NavData(icon: Icons.calendar_month, label: 'Sipbook'),
     _NavData(icon: Icons.trending_up, label: 'Position'),
     _NavData(icon: Icons.account_balance_wallet, label: 'Holding'),
+    _NavData(icon: Icons.exit_to_app, label: 'Exit'),
   ];
 
   // shared by both BottomNavigationBar and Drawer taps
-  void _onSelectTab(WidgetRef ref, int selectedIndex, int index) {
+  void _onSelectTab(BuildContext context,WidgetRef ref, int selectedIndex, int index) {
     if (selectedIndex == index) return;
-
+// Handle Exit separately — don't touch tab state or invalidate controllers
+    if (index == 5) {
+      if (Platform.isIOS) {
+        // iOS convention: don't offer an in-app exit action at all
+        context.go('/');
+      }
+      showExitConfirmationDialog(context, ref);
+      return;
+    }
     ref.read(bottomNavProvider.notifier).changeTab(index);
     switch (index) {
       case 0:
@@ -53,6 +66,7 @@ class HomeScreen extends ConsumerWidget {
       case 4:
         ref.invalidate(holdingDetailsControllerProvider);
         break;
+
     }
   }
 
@@ -60,56 +74,58 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedIndex = ref.watch(bottomNavProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.surface, // pin explicitly
-        surfaceTintColor: Colors.transparent,
-        shadowColor: Colors.transparent,
-        scrolledUnderElevation: 0,
-        title: Text(_navItems[selectedIndex].label),
-        foregroundColor: Colors.black,
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
-              child: Text(
-                'Stock Holding',
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-            ),
-            ...List.generate(_navItems.length, (index) {
-              final item = _navItems[index];
-              return ListTile(
-                leading: Icon(item.icon),
-                title: Text(item.label),
-                selected: selectedIndex == index,
-                selectedTileColor: Colors.blue.withOpacity(0.1),
-                onTap: () {
-                  _onSelectTab(ref, selectedIndex, index);
-                  Navigator.pop(context); // close drawer after selecting
-                },
-              );
-            }),
-          ],
+    return ExitConfirmationWrapper(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.surface, // pin explicitly
+          surfaceTintColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          scrolledUnderElevation: 0,
+          title: Text(_navItems[selectedIndex].label),
+          foregroundColor: Colors.black,
         ),
-      ),
-      body: IndexedStack(index: selectedIndex, children: _pages),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
-        currentIndex: selectedIndex,
-        onTap: (index) => _onSelectTab(ref, selectedIndex, index),
-        items: _navItems
-            .map((item) => BottomNavigationBarItem(
-          icon: Icon(item.icon),
-          label: item.label,
-        ))
-            .toList(),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              const DrawerHeader(
+                decoration: BoxDecoration(color: Colors.blue),
+                child: Text(
+                  'Stock Holding',
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+              ),
+              ...List.generate(_navItems.length, (index) {
+                final item = _navItems[index];
+                return ListTile(
+                  leading: Icon(item.icon),
+                  title: Text(item.label),
+                  selected: selectedIndex == index,
+                  selectedTileColor: Colors.blue.withOpacity(0.1),
+                  onTap: () {
+                    Navigator.pop(context); // close drawer after selecting
+                    _onSelectTab(context,ref, selectedIndex, index);
+                  },
+                );
+              }),
+            ],
+          ),
+        ),
+        body: IndexedStack(index: selectedIndex, children: _pages),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.white,
+          selectedItemColor: Colors.blue,
+          unselectedItemColor: Colors.grey,
+          currentIndex: selectedIndex,
+          onTap: (index) => _onSelectTab(context,ref, selectedIndex, index),
+          items: _navItems
+              .map((item) => BottomNavigationBarItem(
+            icon: Icon(item.icon),
+            label: item.label,
+          ))
+              .toList(),
+        ),
       ),
     );
   }

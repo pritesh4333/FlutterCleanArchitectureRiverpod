@@ -150,7 +150,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             dob=_dobController.text.trim();
             tokenID=authResult.decryptedTokenId;
             iV=authResult.decryptedAesKey;
-            context.push(RouteNames.homescreen);
+            context.push(RouteNames.otpscreen);
 
           }
         },
