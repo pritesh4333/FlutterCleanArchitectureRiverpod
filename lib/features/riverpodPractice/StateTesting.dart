@@ -7,9 +7,6 @@ class StateTesting extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentName = ref.watch(currentNameProvider);
-    final listNames = ref.watch(nameListProvider);
-
     return Scaffold(
       appBar: AppBar(title: const Text('Riverpod'),
         backgroundColor: Theme.of(context).colorScheme.surface, // pin explicitly
@@ -19,18 +16,26 @@ class StateTesting extends ConsumerWidget {
       ),
       body: Column(
         children: [
-          Text(currentName, style: const TextStyle(fontSize: 24)),
+          Consumer(
+            builder: (context, ref, _) {
+              final currentName = ref.watch(currentNameProvider);
+              return Text(currentName, style: const TextStyle(fontSize: 24));
+            },
+          ),
           ElevatedButton(
             onPressed: () => pickRandomName(ref),
             child: const Text('Update Name'),
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: listNames.length,
-              itemBuilder: (context, index) => ListTile(
-                title: Text(listNames[index]),
-              ),
-            ),
+          Consumer(
+            builder: (context, ref, _) {
+              final listNames = ref.watch(nameListProvider);
+              return Expanded(
+                child: ListView.builder(
+                  itemCount: listNames.length,
+                  itemBuilder: (context, index) => ListTile(title: Text(listNames[index])),
+                ),
+              );
+            },
           ),
         ],
       ),

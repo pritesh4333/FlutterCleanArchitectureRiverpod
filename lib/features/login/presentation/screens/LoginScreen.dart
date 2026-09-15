@@ -274,7 +274,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         onPressed: (){
                           context.push(RouteNames.statetesting);
                         },
-                        child:  const Text('Riverpod Testing'),
+                        child:  const Text('Riverpod'),
                       ),
                     ),
                   ],
