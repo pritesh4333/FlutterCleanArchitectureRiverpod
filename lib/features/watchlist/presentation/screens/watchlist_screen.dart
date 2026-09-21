@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stockholding/core/constants/globalVariables.dart';
+import '../../../../core/theam/app_text_styles.dart';
 import '../../../../core/widgets/ListSkeleton.dart';
 import '../../domain/entity/WLRequest_parmars.dart';
 import '../../domain/entity/WLResponse_parmams.dart';
@@ -178,7 +179,7 @@ class _WatchlistRow extends ConsumerWidget {
     );
 
     return ListTile(
-      title: Text(item.symbol),
+      title: Text(item.symbol ,style: AppTextStyles.body),
       subtitle: Text('${item.exchange} • ${item.instrument}'),
       trailing: Text('Ltp: $refLtp', style: const TextStyle(fontSize: 12)),
     );

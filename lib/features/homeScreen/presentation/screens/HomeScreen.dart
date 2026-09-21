@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:stockholding/features/HomeScreen/presentation/controllers/home_screen_controllers.dart';
+ import 'package:stockholding/features/HomeScreen/presentation/controllers/home_screen_controllers.dart';
 import 'package:stockholding/features/holding/presentation/controllers/holding_controller.dart';
 import 'package:stockholding/features/holding/presentation/screens/holding_screen.dart';
 import 'package:stockholding/features/orderbook/presentation/controllers/orderBook_controller.dart';
@@ -13,10 +13,9 @@ import 'package:stockholding/features/sipbook/presentation/controllers/sipBook_c
 import 'package:stockholding/features/sipbook/presentation/screens/sipBook_screen.dart';
 import 'package:stockholding/features/watchlist/presentation/controllers/wlDetails_controller.dart';
 import 'package:stockholding/features/watchlist/presentation/screens/watchlist_screen.dart';
-
+import '../../../../core/theam/theme_picker.dart';
 import '../../../position/presentation/screens/position_screen.dart';
-import '../../../theam/presentation/providers/theme_providers.dart';
-import 'ExitConfirmationWrapper.dart';
+ import 'ExitConfirmationWrapper.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -112,19 +111,9 @@ class HomeScreen extends ConsumerWidget {
                 );
               }),
               const Divider(),
-              Consumer(
-                builder: (context, ref, _) {
-                  final themeMode = ref.watch(themeControllerProvider);
-                  final isDark = themeMode == ThemeMode.dark;
-                  return SwitchListTile(
-                    secondary: Icon(isDark ? Icons.dark_mode : Icons.light_mode),
-                    title: const Text('Dark Mode'),
-                    value: isDark,
-                    onChanged: (value) {
-                      ref.read(themeControllerProvider.notifier).toggleTheme(value);
-                    },
-                  );
-                },
+              Padding(
+                padding: EdgeInsets.all(16),
+                child: ThemePicker(),
               ),
             ],
           ),

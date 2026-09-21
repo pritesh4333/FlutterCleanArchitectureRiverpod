@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:stockholding/core/theam/theme_local_data_source.dart';
+import 'package:stockholding/core/theam/theme_provider.dart';
 
 import 'core/router/app_router.dart';
-import 'features/theam/presentation/providers/theme_providers.dart';
 
 void main() {
   print('--- 1. Array Reverse ---');
@@ -583,7 +584,7 @@ void printNumberPattern(int n) {
 //    *
 // Logic: pyramid on top + inverted triangle on bottom
 // ============================================================
-void printDiamondPattern(int n) {
+Future<void> printDiamondPattern(int n) async {
   // Top half (pyramid with odd stars: 1, 3, 5...)
   for (int i = 1; i <= n; i++) {
     String row = '';
@@ -607,7 +608,21 @@ void printDiamondPattern(int n) {
     }
     print(row);
   }
-  runApp(const ProviderScope(child: MyApp()));
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final dataSource = ThemeLocalDataSource();
+  final savedThemeType = await dataSource.loadThemeType();
+
+  runApp(
+    ProviderScope(
+      overrides: [
+        themeControllerProvider.overrideWith(              // ✅ correct provider
+              (ref) => ThemeController(dataSource, savedThemeType),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends ConsumerWidget {
@@ -616,12 +631,11 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterProvider);
-    final themeMode = ref.watch(themeControllerProvider);
+    final themeData = ref.watch(currentThemeDataProvider);
+
     return MaterialApp.router(
       title: 'Flutter Demo',
-      themeMode: themeMode,
-      theme: ThemeData(brightness: Brightness.light, useMaterial3: true),
-      darkTheme: ThemeData(brightness: Brightness.dark, useMaterial3: true),
+      theme: themeData,          // ✅ fixed — was themeMode
       routerConfig: router,
       debugShowCheckedModeBanner: false,
     );
