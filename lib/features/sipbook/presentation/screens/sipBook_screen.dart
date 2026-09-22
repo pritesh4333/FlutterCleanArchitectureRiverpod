@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:stockholding/core/widgets/CommanWidgets.dart';
+import '../../../../core/theam/app_fonts.dart';
 import '../../../../core/widgets/ListSkeleton.dart';
 
 import '../controllers/sipBook_controller.dart';
@@ -38,12 +40,24 @@ class _SipBookScreenState extends ConsumerState<SipBookScreen> {
     return Scaffold(
       body: sipBookState.when(
         loading: () => const ListSkeleton(),
-        error: (e, _) => Center(child: Text('Error: $e')),
+        error: (e, _) => Center(child: CommonText('Error: $e',fontFamily: AppFonts.fontName,
+          fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+          fontSize: 15,
+          color: Colors.black,)),
         data: (result) {
-          if (result == null) return const Center(child: Text('No data'));
-          if (!result.isSuccess) return Center(child: Text(result.message));
+          if (result == null) return const Center(child: CommonText('No data',fontFamily: AppFonts.fontName,
+            fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+            fontSize: 15,
+            color: Colors.black,));
+          if (!result.isSuccess) return Center(child: CommonText(result.message,fontFamily: AppFonts.fontName,
+            fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+            fontSize: 15,
+            color: Colors.black,));
           if (result.items.isEmpty) {
-            return const Center(child: Text('No SIP orders found'));
+            return const Center(child: CommonText('No SIP orders found',fontFamily: AppFonts.fontName,
+              fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+              fontSize: 15,
+              color: Colors.black,));
           }
 
           return Column(
@@ -89,23 +103,28 @@ class _SearchField extends ConsumerWidget {
 
     return Column(
       children: [
-        TextField(
+
+        CommonTextField(
           controller: controller,
           decoration: InputDecoration(
             hintText: 'Search by symbol, template, order no...',
             border: const OutlineInputBorder(),
             suffixIcon: searchQuery.isEmpty
                 ? null
-                : IconButton(
-                    icon: const Icon(Icons.clear),
-                    onPressed: onClear,
-                  ),
+                : IconButton(icon: const Icon(Icons.clear), onPressed: onClear),
           ),
           onChanged: onChanged,
+          fontSize: 15,
+          fontWeight: FontWeight.w200,
+          color: Colors.black,
+          fontFamily: AppFonts.fontName,
         ),
         const Padding(
           padding: EdgeInsets.all(5),
-          child: Text("Click item for more details"),
+          child: CommonText("Click item for more details",fontFamily: AppFonts.fontName,
+            fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+            fontSize: 15,
+            color: Colors.black,),
         ),
       ],
     );
@@ -120,7 +139,10 @@ class _SipBookList extends ConsumerWidget {
     final filteredItems = ref.watch(sipBookSearchItemProvider);
 
     if (filteredItems.isEmpty) {
-      return const Center(child: Text('No matching SIP orders'));
+      return const Center(child: CommonText('No matching SIP orders',fontFamily: AppFonts.fontName,
+        fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+        fontSize: 15,
+        color: Colors.black,));
     }
 
     return ListView.builder(
@@ -135,25 +157,42 @@ class _SipBookList extends ConsumerWidget {
         ].join(' • ');
 
         return ListTile(
-          title: Text(
-            displayTitle.isNotEmpty ? displayTitle : 'SIP #${item.orderNumber}',
-            style: const TextStyle(fontWeight: FontWeight.bold),
+          title: CommonText(
+            displayTitle.isNotEmpty ? displayTitle : 'SIP #${item.orderNumber}',fontFamily: AppFonts.fontName,
+            fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+            fontSize: 15,
+            color: Colors.black,
           ),
-          subtitle: Text(
-            subtitleDetails.isNotEmpty ? subtitleDetails : 'Order #${item.orderNumber}',
+          subtitle: CommonText(
+            subtitleDetails.isNotEmpty ? subtitleDetails : 'Order #${item.orderNumber}',fontFamily: AppFonts.fontName,
+            fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+            fontSize: 15,
+            color: Colors.black,
           ),
           trailing: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               if (item.amount.isNotEmpty && item.amount != '0.00')
-                Text('₹${item.amount}', style: const TextStyle(fontWeight: FontWeight.bold))
+                CommonText('₹${item.amount}',fontFamily: AppFonts.fontName,
+                  fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+                  fontSize: 15,
+                  color: Colors.black,)
               else if (item.totalQuantity.isNotEmpty && item.totalQuantity != '0')
-                Text('Qty: ${item.totalQuantity}', style: const TextStyle(fontWeight: FontWeight.bold))
+                CommonText('Qty: ${item.totalQuantity}',fontFamily: AppFonts.fontName,
+                  fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+                  fontSize: 15,
+                  color: Colors.black,)
               else
-                Text('Order #${item.orderNumber}', style: const TextStyle(fontSize: 12)),
+                CommonText('Order #${item.orderNumber}',fontFamily: AppFonts.fontName,
+                    fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+                    fontSize: 15,
+                    color: Colors.black,),
               if (item.status.isNotEmpty)
-                Text(item.status, style: const TextStyle(fontSize: 11, color: Colors.grey)),
+                CommonText(item.status,fontFamily: AppFonts.fontName,
+                  fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+                  fontSize: 15,
+                  color: Colors.black,),
             ],
           ),
           onTap: () {

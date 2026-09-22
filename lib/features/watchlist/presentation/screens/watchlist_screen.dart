@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:stockholding/core/constants/globalVariables.dart';
-import '../../../../core/theam/app_text_styles.dart';
+import '../../../../core/theam/app_fonts.dart';
+import '../../../../core/widgets/CommanWidgets.dart';
 import '../../../../core/widgets/ListSkeleton.dart';
-import '../../domain/entity/WLRequest_parmars.dart';
 import '../../domain/entity/WLResponse_parmams.dart';
 import '../controllers/wlDetails_controller.dart';
 import '../controllers/watchlist_socket_controller.dart';
- import 'package:collection/collection.dart';
+import 'package:collection/collection.dart';
 
 import '../providers/watchSearchProvider.dart';
 
@@ -44,7 +43,7 @@ class _WatchlistScreenState extends ConsumerState<WatchlistScreen> {
     ref.read(watchSearchQueryProvider.notifier).state = '';
   }
 
-   @override
+  @override
   Widget build(BuildContext context) {
     final wlDetailsState = ref.watch(wlDetailsControllerProvider);
 
@@ -63,12 +62,50 @@ class _WatchlistScreenState extends ConsumerState<WatchlistScreen> {
     return Scaffold(
       body: wlDetailsState.when(
         loading: () => const ListSkeleton(),
-        error: (e, _) => Center(child: Text('Error: $e')),
+        error: (e, _) => Center(
+          child: CommonText(
+            'Error: $e',
+            fontFamily: AppFonts.fontName,
+            fontWeight: FontWeight.w200,
+            // 👈 bold — maps to RethinkSans-Bold.ttf
+            fontSize: 15,
+            color: Colors.black,
+          ),
+        ),
         data: (result) {
-          if (result == null) return const Center(child: Text('No data'));
-          if (!result.isSuccess) return Center(child: Text(result.message));
+          if (result == null)
+            return const Center(
+              child: CommonText(
+                'No data',
+                fontFamily: AppFonts.fontName,
+                fontWeight: FontWeight.w200,
+                // 👈 bold — maps to RethinkSans-Bold.ttf
+                fontSize: 15,
+                color: Colors.black,
+              ),
+            );
+          if (!result.isSuccess)
+            return Center(
+              child: CommonText(
+                result.message,
+                fontFamily: AppFonts.fontName,
+                fontWeight: FontWeight.w200,
+                // 👈 bold — maps to RethinkSans-Bold.ttf
+                fontSize: 15,
+                color: Colors.black,
+              ),
+            );
           if (result.items.isEmpty) {
-            return const Center(child: Text('No instruments found'));
+            return const Center(
+              child: CommonText(
+                'No instruments found',
+                fontFamily: AppFonts.fontName,
+                fontWeight: FontWeight.w200,
+                // 👈 bold — maps to RethinkSans-Bold.ttf
+                fontSize: 15,
+                color: Colors.black,
+              ),
+            );
           }
 
           return Column(
@@ -115,19 +152,20 @@ class _SearchField extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final searchQuery = ref.watch(watchSearchQueryProvider);
 
-    return TextField(
+    return CommonTextField(
       controller: controller,
       decoration: InputDecoration(
         hintText: 'Search by symbol...',
         border: const OutlineInputBorder(),
         suffixIcon: searchQuery.isEmpty
             ? null
-            : IconButton(
-          icon: const Icon(Icons.clear),
-          onPressed: onClear,
-        ),
+            : IconButton(icon: const Icon(Icons.clear), onPressed: onClear),
       ),
       onChanged: onChanged,
+      fontSize: 15,
+      fontWeight: FontWeight.w200,
+      color: Colors.black,
+      fontFamily: AppFonts.fontName,
     );
   }
 }
@@ -142,7 +180,15 @@ class _WatchlistList extends ConsumerWidget {
     final filteredItems = ref.watch(watchSearchItemProvider);
 
     if (filteredItems.isEmpty) {
-      return const Center(child: Text('No matching instruments'));
+      return const Center(
+        child: CommonText(
+          'No matching instruments',
+          fontFamily: AppFonts.fontName,
+          fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+          fontSize: 15,
+          color: Colors.black,
+        ),
+      );
     }
 
     return ListView.builder(
@@ -172,16 +218,34 @@ class _WatchlistRow extends ConsumerWidget {
         final items = state.value?.items;
         if (items == null) return item.refLtp;
         final match = items.firstWhereOrNull(
-              (i) => i.socketKey == item.socketKey,
+          (i) => i.socketKey == item.socketKey,
         );
         return match?.refLtp ?? item.refLtp;
       }),
     );
 
     return ListTile(
-      title: Text(item.symbol ,style: AppTextStyles.body),
-      subtitle: Text('${item.exchange} • ${item.instrument}'),
-      trailing: Text('Ltp: $refLtp', style: const TextStyle(fontSize: 12)),
+      title: CommonText(
+        item.symbol,
+        fontFamily: AppFonts.fontName,
+        fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+        fontSize: 15,
+        color: Colors.black,
+      ),
+      subtitle: CommonText(
+        '${item.exchange} • ${item.instrument}',
+        fontFamily: AppFonts.fontName,
+        fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+        fontSize: 15,
+        color: Colors.black,
+      ),
+      trailing: CommonText(
+        'Ltp: $refLtp',
+        fontFamily: AppFonts.fontName,
+        fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+        fontSize: 15,
+        color: Colors.black,
+      ),
     );
   }
 }

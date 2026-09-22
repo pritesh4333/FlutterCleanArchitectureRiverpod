@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:stockholding/core/widgets/CommanWidgets.dart';
+import '../../../../core/theam/app_fonts.dart';
 import '../../../../core/widgets/ListSkeleton.dart';
 
 import '../controllers/orderBook_controller.dart';
@@ -38,12 +40,24 @@ class _OrderBookScreenScreenState extends ConsumerState<OrderBookScreen> {
     return Scaffold(
       body: wlDetailsState.when(
         loading: () => const ListSkeleton(),
-        error: (e, _) => Center(child: Text('Error: $e')),
+        error: (e, _) => Center(child: CommonText('Error: $e',fontFamily: AppFonts.fontName,
+          fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+          fontSize: 15,
+          color: Colors.black,)),
         data: (result) {
-          if (result == null) return const Center(child: Text('No data'));
-          if (!result.isSuccess) return Center(child: Text(result.message));
+          if (result == null) return const Center(child: CommonText('No data',fontFamily: AppFonts.fontName,
+            fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+            fontSize: 15,
+            color: Colors.black,));
+          if (!result.isSuccess) return Center(child: CommonText(result.message,fontFamily: AppFonts.fontName,
+            fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+            fontSize: 15,
+            color: Colors.black,));
           if (result.items.isEmpty) {
-            return const Center(child: Text('No instruments found'));
+            return const Center(child: CommonText('No instruments found',fontFamily: AppFonts.fontName,
+              fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+              fontSize: 15,
+              color: Colors.black,));
           }
 
           return Column(
@@ -91,23 +105,28 @@ class _SearchField extends ConsumerWidget {
 
     return Column(
       children: [
-        TextField(
+
+        CommonTextField(
           controller: controller,
           decoration: InputDecoration(
             hintText: 'Search by symbol, exchange...',
             border: const OutlineInputBorder(),
             suffixIcon: searchQuery.isEmpty
                 ? null
-                : IconButton(
-              icon: const Icon(Icons.clear),
-              onPressed: onClear,
-            ),
+                : IconButton(icon: const Icon(Icons.clear), onPressed: onClear),
           ),
           onChanged: onChanged,
+          fontSize: 15,
+          fontWeight: FontWeight.w200,
+          color: Colors.black,
+          fontFamily: AppFonts.fontName,
         ),
        Padding(
          padding: EdgeInsets.all(5),
-           child: Text("Click item for more details")),
+           child: CommonText("Click item for more details",fontFamily: AppFonts.fontName,
+             fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+             fontSize: 15,
+             color: Colors.black,)),
       ],
     );
   }
@@ -123,7 +142,10 @@ class _OrderBookList extends ConsumerWidget {
     final filteredItems = ref.watch(orderBookSearchItemProvider);
 
     if (filteredItems.isEmpty) {
-      return const Center(child: Text('No matching instruments'));
+      return const Center(child: CommonText('No matching instruments',fontFamily: AppFonts.fontName,
+        fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+        fontSize: 15,
+        color: Colors.black,));
     }
 
     return ListView.builder(
@@ -131,11 +153,20 @@ class _OrderBookList extends ConsumerWidget {
       itemBuilder: (context, index) {
         final item = filteredItems[index];
         return ListTile(
-          title: Text(item.symbol),
-          subtitle: Text('${item.exchange} • ${item.instrument}'),
-          trailing: Text(
-            '${item.price}',
-            style: const TextStyle(fontSize: 12),
+          title: CommonText(item.symbol,fontFamily: AppFonts.fontName,
+            fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+            fontSize: 15,
+            color: Colors.black,),
+          subtitle: CommonText('${item.exchange} • ${item.instrument}',fontFamily: AppFonts.fontName,
+            fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+            fontSize: 15,
+            color: Colors.black,),
+          trailing: CommonText(
+            '${item.price}'
+            ,fontFamily: AppFonts.fontName,
+          fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+          fontSize: 15,
+          color: Colors.black,
           ),
           onTap: () {
             context.pushNamed('orderBookDetail', extra: item);

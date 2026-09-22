@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:stockholding/core/widgets/CommanWidgets.dart';
+import '../../../../core/theam/app_fonts.dart';
 import '../../../../core/widgets/ListSkeleton.dart';
 import 'package:stockholding/features/position/presentation/providers/position_provider.dart';
 
@@ -23,23 +25,43 @@ class _PositionScreenState extends ConsumerState<PositionScreen> {
 
       body: positionDetailsState.when(
         loading: () => const ListSkeleton(),
-        error: (e, _) => Center(child: Text('Error: $e')),
+        error: (e, _) => Center(child: CommonText('Error: $e',fontFamily: AppFonts.fontName,
+          fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+          fontSize: 15,
+          color: Colors.black,)),
         data: (result) {
-          if (result == null) return const Center(child: Text('No data'));
-          if (!result.isSuccess) return Center(child: Text(result.message));
+          if (result == null) return const Center(child: CommonText('No data',fontFamily: AppFonts.fontName,
+            fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+            fontSize: 15,
+            color: Colors.black,));
+          if (!result.isSuccess) return Center(child: CommonText(result.message,fontFamily: AppFonts.fontName,
+            fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+            fontSize: 15,
+            color: Colors.black,));
           if (result.items.isEmpty)
-            return const Center(child: Text('No instruments found'));
+            return const Center(child: CommonText('No instruments found',fontFamily: AppFonts.fontName,
+              fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+              fontSize: 15,
+              color: Colors.black,));
 
           return ListView.builder(
             itemCount: result.items.length,
             itemBuilder: (context, index) {
               final item = result.items[index];
               return ListTile(
-                title: Text(item.symbol),
-                subtitle: Text('${item.exchange} • ${item.buyAvg}'),
-                trailing: Text(
-                  '${item.grossQty}',
-                  style: const TextStyle(fontSize: 12),
+                title: CommonText(item.symbol,fontFamily: AppFonts.fontName,
+                  fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+                  fontSize: 15,
+                  color: Colors.black,),
+                subtitle: CommonText('${item.exchange} • ${item.buyAvg}',fontFamily: AppFonts.fontName,
+                  fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+                  fontSize: 15,
+                  color: Colors.black,),
+                trailing: CommonText(
+                  '${item.grossQty}',fontFamily: AppFonts.fontName,
+                  fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+                  fontSize: 15,
+                  color: Colors.black,
                 ),
               );
             },

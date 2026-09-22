@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
- import '../../../../core/widgets/ListSkeleton.dart';
+import 'package:stockholding/core/widgets/CommanWidgets.dart';
+ import '../../../../core/theam/app_fonts.dart';
+import '../../../../core/widgets/ListSkeleton.dart';
  import '../../domain/entity/HoldingResponse_parmams.dart';
 import '../controllers/holding_controller.dart';
 
@@ -21,12 +23,24 @@ class _HoldingScreenState extends ConsumerState<HoldingScreen> {
     return Scaffold(
       body: holdingDetailsState.when(
         loading: () => const ListSkeleton(),
-        error: (e, _) => Center(child: Text('Error: $e')),
+        error: (e, _) => Center(child: CommonText('Error: $e',fontFamily: AppFonts.fontName,
+          fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+          fontSize: 15,
+          color: Colors.black,)),
         data: (result) {
-          if (result == null) return const Center(child: Text('No data'));
-          if (result.status!="success") return Center(child: Text(result.message));
+          if (result == null) return const Center(child: CommonText('No data',fontFamily: AppFonts.fontName,
+            fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+            fontSize: 15,
+            color: Colors.black,));
+          if (result.status!="success") return Center(child: CommonText(result.message,fontFamily: AppFonts.fontName,
+            fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+            fontSize: 15,
+            color: Colors.black,));
           if (result.items!.records!.isEmpty)
-            return const Center(child: Text('No instruments found'));
+            return const Center(child: CommonText('No instruments found',fontFamily: AppFonts.fontName,
+              fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+              fontSize: 15,
+              color: Colors.black,));
 
           return ListView.builder(
             itemCount: result.items!.records!.length,
@@ -57,9 +71,18 @@ class _HoldingRow extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
-      title: Text(item.nseSymbol),
-      subtitle: Text('${item.isin} • ${item.freeQty}'),
-      trailing: Text('Ltp: ${item.freeQty}', style: const TextStyle(fontSize: 12)),
+      title: CommonText(item.nseSymbol,fontFamily: AppFonts.fontName,
+        fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+        fontSize: 15,
+        color: Colors.black,),
+      subtitle: CommonText('${item.isin} • ${item.freeQty}',fontFamily: AppFonts.fontName,
+        fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+        fontSize: 15,
+        color: Colors.black,),
+      trailing: CommonText('Ltp: ${item.freeQty}',fontFamily: AppFonts.fontName,
+        fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+        fontSize: 15,
+        color: Colors.black,),
     );
   }
 }

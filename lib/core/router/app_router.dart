@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:stockholding/core/widgets/CommanWidgets.dart';
 import 'package:stockholding/features/HomeScreen/presentation/screens/HomeScreen.dart';
 import 'package:stockholding/features/login/presentation/screens/OtpScreen.dart';
 
@@ -11,6 +12,7 @@ import '../../features/orderbook/presentation/screens/OrderBookDetailScreen.dart
 import '../../features/riverpodPractice/StateTesting.dart';
 import '../../features/sipbook/domain/entity/sipBookResponse_params.dart';
 import '../../features/sipbook/presentation/screens/SipBookDetailScreen.dart';
+import '../theam/app_fonts.dart';
 import 'route_names.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -52,7 +54,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           if (item == null) {
             // guard against direct URL access / bad deep link
             return const Scaffold(
-              body: Center(child: Text('No order data provided')),
+              body: Center(child: CommonText('No order data provided',fontFamily: AppFonts.fontName,
+                fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+                fontSize: 15,
+                color: Colors.black,)),
             );
           }
           return OrderBookDetailScreen(item: item);
@@ -66,7 +71,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           if (item == null) {
             // guard against direct URL access / bad deep link
             return const Scaffold(
-              body: Center(child: Text('No SIP data provided')),
+              body: Center(child: CommonText('No SIP data provided',fontFamily: AppFonts.fontName,
+                fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+                fontSize: 15,
+                color: Colors.black,)),
             );
           }
           return SipBookDetailScreen(item: item);

@@ -9,7 +9,7 @@ import '../providers/watch_provider.dart';
 class WldetailsController extends AsyncNotifier<WlResponseParams?> {
   @override
   Future<WlResponseParams?> build() async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 1));
     final params = WlRequestParams(
       inputType: 2,
       inputValue: clientId!,

@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:stockholding/core/constants/globalVariables.dart';
+import 'package:stockholding/core/widgets/CommanWidgets.dart';
 import 'package:stockholding/features/login/domain/entities/authenticate_params.dart';
 import 'package:stockholding/features/login/presentation/controllers/authenticate_controller.dart';
 import 'package:stockholding/features/watchlist/presentation/controllers/wlDetails_controller.dart';
 
 import '../../../../core/router/route_names.dart';
- import '../../../orderbook/presentation/controllers/orderBook_controller.dart';
+ import '../../../../core/theam/app_fonts.dart';
+import '../../../orderbook/presentation/controllers/orderBook_controller.dart';
  import '../../domain/entities/passauth_params.dart';
 import '../controllers/passauth_controller.dart';
 
@@ -130,7 +132,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         },
         error: (e, _) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(e.toString())),
+            SnackBar(content: CommonText(e.toString(),fontFamily: AppFonts.fontName,
+              fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+              fontSize: 15,
+              color: Colors.black,)),
           );
         },
       );
@@ -156,14 +161,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         },
         error: (e, _) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(e.toString())),
+            SnackBar(content: CommonText(e.toString(),fontFamily: AppFonts.fontName,
+              fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+              fontSize: 15,
+              color: Colors.black,)),
           );
         },
       );
     });
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Login'),
+      appBar: AppBar(title: const CommonText('Login',fontFamily: AppFonts.fontName,
+        fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+        fontSize: 15,
+        color: Colors.black,),
         backgroundColor: Theme.of(context).colorScheme.surface, // pin explicitly
         surfaceTintColor: Colors.transparent,
         shadowColor: Colors.transparent,
@@ -182,14 +193,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const Text(
-                      'Welcome back',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                    const CommonText(
+                      'Welcome back'
+                      ,fontFamily: AppFonts.fontName,
+                    fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+                    fontSize: 15,
+                    color: Colors.black,
                     ),
                     const SizedBox(height: 4),
-                    Text(
-                      'Enter your details to continue',
-                      style: TextStyle(color: Colors.grey[600]),
+                    CommonText(
+                      'Enter your details to continue',fontFamily: AppFonts.fontName,
+                      fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+                      fontSize: 15,
+                      color: Colors.black,
                     ),
                     const SizedBox(height: 32),
 
@@ -264,7 +280,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             color: Colors.white,
                           ),
                         )
-                            : const Text('Login'),
+                            : const CommonText('Login',fontFamily: AppFonts.fontName,
+                          fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+                          fontSize: 15,
+                          color: Colors.black,),
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -274,7 +293,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         onPressed: (){
                           context.push(RouteNames.statetesting);
                         },
-                        child:  const Text('Riverpod'),
+                        child:  const CommonText('Riverpod',fontFamily: AppFonts.fontName,
+                          fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+                          fontSize: 15,
+                          color: Colors.black,),
                       ),
                     ),
                   ],

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:stockholding/core/widgets/CommanWidgets.dart';
+import '../../../../core/theam/app_fonts.dart';
 import '../../../../core/widgets/ListSkeleton.dart';
 import '../../domain/entity/sipBookResponse_params.dart';
 
@@ -13,7 +15,10 @@ class SipBookDetailScreen extends StatelessWidget {
     if (isLoading || item == null) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text('SIP Details'),
+          title: const CommonText('SIP Details',fontFamily: AppFonts.fontName,
+            fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+            fontSize: 15,
+            color: Colors.black,),
           backgroundColor: Theme.of(context).colorScheme.surface,
           surfaceTintColor: Colors.transparent,
           shadowColor: Colors.transparent,
@@ -28,7 +33,10 @@ class SipBookDetailScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(title.isNotEmpty ? title : 'SIP Details'),
+        title: CommonText(title.isNotEmpty ? title : 'SIP Details',fontFamily: AppFonts.fontName,
+          fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+          fontSize: 15,
+          color: Colors.black,),
         backgroundColor: Theme.of(context).colorScheme.surface,
         surfaceTintColor: Colors.transparent,
         shadowColor: Colors.transparent,
@@ -91,13 +99,11 @@ class SipBookDetailScreen extends StatelessWidget {
   Widget _sectionHeader(String title) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
-      child: Text(
-        title,
-        style: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.bold,
-          color: Colors.grey,
-        ),
+      child: CommonText(
+        title,fontFamily: AppFonts.fontName,
+        fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+        fontSize: 15,
+        color: Colors.black,
       ),
     );
   }
@@ -110,13 +116,18 @@ class SipBookDetailScreen extends StatelessWidget {
         children: [
           SizedBox(
             width: 150,
-            child: Text(
-              label,
-              style: const TextStyle(fontWeight: FontWeight.w600),
+            child: CommonText(
+              label,fontFamily: AppFonts.fontName,
+              fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+              fontSize: 15,
+              color: Colors.black,
             ),
           ),
           Expanded(
-            child: Text(value.trim().isEmpty ? '-' : value),
+            child: CommonText(value.trim().isEmpty ? '-' : value,fontFamily: AppFonts.fontName,
+              fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+              fontSize: 15,
+              color: Colors.black,),
           ),
         ],
       ),

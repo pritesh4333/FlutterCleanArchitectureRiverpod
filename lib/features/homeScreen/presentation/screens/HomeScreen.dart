@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:stockholding/core/widgets/CommanWidgets.dart';
  import 'package:stockholding/features/HomeScreen/presentation/controllers/home_screen_controllers.dart';
 import 'package:stockholding/features/holding/presentation/controllers/holding_controller.dart';
 import 'package:stockholding/features/holding/presentation/screens/holding_screen.dart';
@@ -13,6 +14,7 @@ import 'package:stockholding/features/sipbook/presentation/controllers/sipBook_c
 import 'package:stockholding/features/sipbook/presentation/screens/sipBook_screen.dart';
 import 'package:stockholding/features/watchlist/presentation/controllers/wlDetails_controller.dart';
 import 'package:stockholding/features/watchlist/presentation/screens/watchlist_screen.dart';
+import '../../../../core/theam/app_fonts.dart';
 import '../../../../core/theam/theme_picker.dart';
 import '../../../position/presentation/screens/position_screen.dart';
  import 'ExitConfirmationWrapper.dart';
@@ -83,7 +85,10 @@ class HomeScreen extends ConsumerWidget {
           surfaceTintColor: Colors.transparent,
           shadowColor: Colors.transparent,
           scrolledUnderElevation: 0,
-          title: Text(_navItems[selectedIndex].label),
+          title: CommonText(_navItems[selectedIndex].label,fontFamily: AppFonts.fontName,
+            fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+            fontSize: 15,
+            color: Colors.black,),
           foregroundColor: colorScheme.onSurface, // ✅ adapts to light/dark
         ),
         drawer: Drawer(
@@ -91,17 +96,23 @@ class HomeScreen extends ConsumerWidget {
             padding: EdgeInsets.zero,
             children: [
               DrawerHeader(
-                decoration: BoxDecoration(color: colorScheme.primary),
-                child: Text(
+                decoration: BoxDecoration(color: Colors.grey),
+                child: CommonText(
                   'Stock Holding',
-                  style: TextStyle(color: colorScheme.onPrimary, fontSize: 20),
+                  fontFamily: AppFonts.fontName,
+                  fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+                  fontSize: 15,
+                  color: Colors.black,
                 ),
               ),
               ...List.generate(_navItems.length, (index) {
                 final item = _navItems[index];
                 return ListTile(
                   leading: Icon(item.icon),
-                  title: Text(item.label),
+                  title: CommonText(item.label,fontFamily: AppFonts.fontName,
+                    fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+                    fontSize: 15,
+                    color: Colors.black,),
                   selected: selectedIndex == index,
                   selectedTileColor: colorScheme.primary.withOpacity(0.1), // ✅
                   onTap: () {

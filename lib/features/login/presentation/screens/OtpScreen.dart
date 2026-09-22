@@ -1,7 +1,9 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:stockholding/core/widgets/CommanWidgets.dart';
+import '../../../../core/theam/app_fonts.dart';
 import '../provider/otp_providers.dart';
 
 class OtpScreen extends ConsumerStatefulWidget {
@@ -12,8 +14,10 @@ class OtpScreen extends ConsumerStatefulWidget {
 }
 
 class _OtpScreenState extends ConsumerState<OtpScreen> {
-  final List<TextEditingController> _controllers =
-  List.generate(6, (_) => TextEditingController());
+  final List<TextEditingController> _controllers = List.generate(
+    6,
+    (_) => TextEditingController(),
+  );
   final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
 
   @override
@@ -36,7 +40,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
     if (value.isEmpty && index > 0) {
       _focusNodes[index - 1].requestFocus();
     }
-    if(index==5){
+    if (index == 5) {
       FocusScope.of(context).unfocus();
       ref.read(otpControllerProvider.notifier).submitOtp(_enteredOtp);
     }
@@ -56,14 +60,27 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
       next.when(
         data: (isVerified) {
           if (isVerified == true) {
-            context.go('/homescreen'); // no back navigation, per your earlier setup
+            context.go(
+              '/homescreen',
+            ); // no back navigation, per your earlier setup
           }
         },
         loading: () {},
         error: (err, _) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
-            ..showSnackBar(SnackBar(content: Text(err.toString())));
+            ..showSnackBar(
+              SnackBar(
+                content: CommonText(
+                  err.toString(),
+                  fontFamily: AppFonts.fontName,
+                  fontWeight: FontWeight.w200,
+                  // 👈 bold — maps to RethinkSans-Bold.ttf
+                  fontSize: 15,
+                  color: Colors.black,
+                ),
+              ),
+            );
           for (final c in _controllers) {
             c.clear();
           }
@@ -75,16 +92,28 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
     final isLoading = otpState.isLoading;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Verify OTP')),
+      appBar: AppBar(
+        title: const CommonText(
+          'Verify OTP',
+          fontFamily: AppFonts.fontName,
+          fontWeight: FontWeight.w200,
+          // 👈 bold — maps to RethinkSans-Bold.ttf
+          fontSize: 15,
+          color: Colors.black,
+        ),
+      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
           child: Column(
             children: [
-              const Text(
+              const CommonText(
                 'Enter the 6-digit code which is 111111 sent to your phone',
-                style: TextStyle(fontSize: 16),
-                textAlign: TextAlign.center,
+                fontFamily: AppFonts.fontName,
+                fontWeight: FontWeight.w200,
+                // 👈 bold — maps to RethinkSans-Bold.ttf
+                fontSize: 15,
+                color: Colors.black,
               ),
               const SizedBox(height: 32),
               Row(
@@ -92,20 +121,23 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                 children: List.generate(6, (index) {
                   return SizedBox(
                     width: 45,
-                    child: TextField(
+                    child: CommonTextField(
                       controller: _controllers[index],
                       focusNode: _focusNodes[index],
-                      autofocus: index == 0,
+                      focus: index == 0,
                       textAlign: TextAlign.center,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       keyboardType: TextInputType.number,
                       maxLength: 1,
-                      style: const TextStyle(fontSize: 20),
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      decoration: const InputDecoration(
-                        counterText: '',
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        hintText: 'Search by symbol, exchange...',
+                        border: const OutlineInputBorder(),
                       ),
                       onChanged: (value) => _onDigitChanged(value, index),
+                      fontSize: 15,
+                      fontWeight: FontWeight.w200,
+                      color: Colors.black,
+                      fontFamily: AppFonts.fontName,
                     ),
                   );
                 }),
@@ -118,11 +150,21 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                   onPressed: isLoading ? null : _submit,
                   child: isLoading
                       ? const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
-                  )
-                      : const Text('Submit'),
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                      : const CommonText(
+                          'Submit',
+                          fontFamily: AppFonts.fontName,
+                          fontWeight: FontWeight.w200,
+                          // 👈 bold — maps to RethinkSans-Bold.ttf
+                          fontSize: 15,
+                          color: Colors.black,
+                        ),
                 ),
               ),
             ],

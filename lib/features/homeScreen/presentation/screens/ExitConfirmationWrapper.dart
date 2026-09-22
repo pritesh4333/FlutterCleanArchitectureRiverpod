@@ -2,7 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:stockholding/core/widgets/CommanWidgets.dart';
 
+import '../../../../core/theam/app_fonts.dart';
 import '../provider/exit_provider.dart';
 
 class ExitConfirmationWrapper extends ConsumerWidget {
@@ -30,16 +32,28 @@ Future<void> showExitConfirmationDialog(BuildContext context, WidgetRef ref) asy
   final shouldExit = await showDialog<bool>(
     context: context,
     builder: (ctx) => AlertDialog(
-      title: const Text('Exit App'),
-      content: const Text('Are you sure you want to exit?'),
+      title: const CommonText('Exit App',fontFamily: AppFonts.fontName,
+        fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+        fontSize: 15,
+        color: Colors.black,),
+      content: const CommonText('Are you sure you want to exit?',fontFamily: AppFonts.fontName,
+        fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+        fontSize: 15,
+        color: Colors.black,),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(ctx).pop(false),
-          child: const Text('Cancel'),
+          child: const CommonText('Cancel',fontFamily: AppFonts.fontName,
+            fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+            fontSize: 15,
+            color: Colors.black,),
         ),
         TextButton(
           onPressed: () => Navigator.of(ctx).pop(true),
-          child: const Text('Exit'),
+          child: const CommonText('Exit',fontFamily: AppFonts.fontName,
+            fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
+            fontSize: 15,
+            color: Colors.black,),
         ),
       ],
     ),
