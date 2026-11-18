@@ -5,7 +5,30 @@ import 'package:stockholding/core/theam/theme_provider.dart';
 
 import 'core/router/app_router.dart';
 
-void main() {
+Future<void> main() async {
+  // Proper single bootstrap: ensure bindings, load theme, then runApp once.
+  // (The interview-practice functions below are kept for reference but are
+  // intentionally NOT executed here — running them from main and burying
+  // runApp inside printDiamondPattern created a broken, double bootstrap.)
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final dataSource = ThemeLocalDataSource();
+  final savedThemeType = await dataSource.loadThemeType();
+
+  runApp(
+    ProviderScope(
+      overrides: [
+        themeControllerProvider.overrideWith(
+          (ref) => ThemeController(dataSource, savedThemeType),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
+}
+
+// ignore: unused_element
+void _interviewPractice() {
   print('--- 1. Array Reverse ---');
   print(reverseArray([1, 2, 3, 4, 5]));
 
@@ -608,21 +631,6 @@ Future<void> printDiamondPattern(int n) async {
     }
     print(row);
   }
-  WidgetsFlutterBinding.ensureInitialized();
-
-  final dataSource = ThemeLocalDataSource();
-  final savedThemeType = await dataSource.loadThemeType();
-
-  runApp(
-    ProviderScope(
-      overrides: [
-        themeControllerProvider.overrideWith(              // ✅ correct provider
-              (ref) => ThemeController(dataSource, savedThemeType),
-        ),
-      ],
-      child: const MyApp(),
-    ),
-  );
 }
 
 class MyApp extends ConsumerWidget {

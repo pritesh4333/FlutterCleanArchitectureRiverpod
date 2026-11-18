@@ -17,5 +17,10 @@ abstract class SocketService {
   /// `segmentID + '|' + secID` format from _askForBroadcast().
   Future<void> subscribe(List<String> keys, {bool isMbp = false});
 
+
   void unsubscribeAll();
+
+  /// Subscribes to index scrips. [list] contains bare secIds; [segment] is
+  /// the index segment (0). Returns once all add requests have been queued.
+  Future<void> subscribeIndices(List<String> list, int segment);
 }

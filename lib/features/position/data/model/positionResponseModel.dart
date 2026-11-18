@@ -59,7 +59,7 @@ class PositonItemModel extends PositonItem {
         symbol: json["symbol"],
         exchange: json["exchange"],
         strikePrice: json["strike_price"],
-        buyAvg: json["buy_avg"],
+        buyAvg:double.tryParse(json["buy_avg"].toString()) ?? 0.0,
         grossQty: json["gross_qty"],
         exchangeIdentity: ExchangeIdentityItem.fromJson(
           json["exchangeIdentity"],

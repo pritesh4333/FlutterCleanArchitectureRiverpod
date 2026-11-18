@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../features/homeScreen/presentation/provider/indices_provider.dart';
 import '../../features/watchlist/presentation/controllers/wlDetails_controller.dart';
 import '../socket/socket_constants.dart';
 
@@ -67,10 +68,9 @@ int readOnePacket(ByteReader reader, Ref ref) {
     // exist on more than one segment/exchange.
     final key = '$exchSeg|$secId';
 
-    // print('SOCKET DIAG: frameLen=${reader.bytes.length - startOffset} '
-    //     'hex=$hexAll');
     // print('SOCKET DIAG: header-parse exchSeg=$exchSeg scripID=$scripID '
-    //     'scripID2=$scripID2 length=$length msgCode=$msgCode key=$key');
+    //     'scripID2=$scripID2 length=$length msgCode=$msgCode key=$key '
+    //     'hex=$hexAll');
 
     switch (msgCode) {
       case 1:   // Trade Packet
@@ -87,6 +87,27 @@ int readOnePacket(ByteReader reader, Ref ref) {
                 .updateLtp(key, ltp.toStringAsFixed(2));
           } else {
             //print('SOCKET: ignoring zero LTP tick for key=$key');
+          }
+        }
+        break;
+      case 5: // INDEX packet
+      // Body layout matches legacy _parseINDEX:
+      // ltp, open, close, high, low (5x float32), then lut (int32).
+        if (reader.remaining >= 20) {
+          final ltp = reader.getFloat32();
+          final open = reader.getFloat32();
+          final close = reader.getFloat32();
+          final high = reader.getFloat32();
+          final low = reader.getFloat32();
+          if (ltp > 0) {
+            ref.read(indicesProvider.notifier).update(
+                  key: key,
+                  ltp: ltp,
+                  open: open,
+                  close: close,
+                  high: high,
+                  low: low,
+                );
           }
         }
         break;

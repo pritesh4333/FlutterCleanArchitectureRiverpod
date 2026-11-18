@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stockholding/core/widgets/CommanWidgets.dart';
-import 'package:stockholding/features/HomeScreen/presentation/screens/HomeScreen.dart';
+import 'package:stockholding/features/homeScreen/presentation/screens/HomeScreen.dart';
 import 'package:stockholding/features/login/presentation/screens/OtpScreen.dart';
 
 import '../../features/login/presentation/controllers/authenticate_controller.dart';

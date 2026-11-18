@@ -69,7 +69,7 @@ class PositonItem {
   String symbol;
   String exchange;
   String strikePrice;
-  int buyAvg;
+  double? buyAvg;
   int grossQty;
 
   ExchangeIdentityItem exchangeIdentity;
@@ -93,7 +93,8 @@ class PositonItem {
       exchange: _parseString(json['exchange']),
       strikePrice: _parseString(json['strike_price']),
 
-      buyAvg: _parseInt(json['buy_avg']),
+      buyAvg: double.tryParse(json['buy_avg']),
+        //buyAvg:  double.tryParse('abc');
 
       grossQty: _parseInt(json['gross_qty']),
 

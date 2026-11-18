@@ -212,4 +212,14 @@ class SocketServiceImpl implements SocketService {
   void dispose() {
     _messageController.close();
   }
+
+  @override
+  Future<void> subscribeIndices(List<String> scripList, int parse) async {
+    for (final scripCode in scripList) {
+      _send(_makeAddStockObject(scripCode, parse, SocketConstants.streamFeedIndexAddStock));
+      // Matches your original 3ms throttle between adds so the server
+      // isn't flooded with subscribe requests back-to-back.
+      await Future.delayed(const Duration(milliseconds: 3));
+    }
+  }
 }
