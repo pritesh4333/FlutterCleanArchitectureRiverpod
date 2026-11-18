@@ -31,7 +31,15 @@ class CommonText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeColor = Theme.of(context).colorScheme.primary;
+    // Resolve from the surrounding DefaultTextStyle so the text contrasts with
+    // whatever surface it actually sits on (e.g. a SnackBar), falling back to
+    // the theme's text color.
+    // NOTE: the [color] parameter is intentionally still ignored — ~14 screens
+    // pass `color: Colors.black` today and honoring it would make them
+    // unreadable in the dark and blue themes. Cleaning those up is out of scope.
+    final themeColor =
+        DefaultTextStyle.of(context).style.color ??
+        Theme.of(context).colorScheme.onSurface;
     return Text(
       text,
       textAlign: textAlign,

@@ -77,7 +77,6 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                   fontWeight: FontWeight.w200,
                   // 👈 bold — maps to RethinkSans-Bold.ttf
                   fontSize: 15,
-                  color: Colors.black,
                 ),
               ),
             );
@@ -113,8 +112,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                 fontWeight: FontWeight.w200,
                 // 👈 bold — maps to RethinkSans-Bold.ttf
                 fontSize: 15,
-                color: Colors.black,
-              ),
+               ),
               const SizedBox(height: 32),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -136,7 +134,6 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                       onChanged: (value) => _onDigitChanged(value, index),
                       fontSize: 15,
                       fontWeight: FontWeight.w200,
-                      color: Colors.black,
                       fontFamily: AppFonts.fontName,
                     ),
                   );

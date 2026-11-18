@@ -5,40 +5,42 @@ import 'app_theme_type.dart';
 class AppTheme {
   AppTheme._();
 
-  static ThemeData light = ThemeData(
+  /// Builds a [ThemeData] from [scheme] so every theme gets the same
+  /// theme-derived styling (fonts, snackbar contrast) without repeating it.
+  static ThemeData _build(ColorScheme scheme) => ThemeData(
     fontFamily: AppFonts.fontName,
-    brightness: Brightness.light,
-    colorScheme: const ColorScheme.light(
+    brightness: scheme.brightness,
+    colorScheme: scheme,
+    // 👈 snackbar text must contrast with the snackbar surface, not the screen
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: scheme.inverseSurface,
+      contentTextStyle: TextStyle(
+        color: scheme.onInverseSurface,
+        fontFamily: AppFonts.fontName,
+      ),
+    ),
+  );
+
+  static ThemeData light = _build(
+    const ColorScheme.light(
       primary: Colors.black,
       onSurface: Colors.black, // 👈 dedicated text color
     ),
   );
 
-  static ThemeData dark = ThemeData(
-    fontFamily: AppFonts.fontName,
-    brightness: Brightness.dark,
-    colorScheme: const ColorScheme.dark(
-      primary: Colors.white,
-      onSurface: Colors.white,
-    ),
+  static ThemeData dark = _build(
+    const ColorScheme.dark(primary: Colors.white, onSurface: Colors.white),
   );
 
-  static ThemeData blue = ThemeData(
-    fontFamily: AppFonts.fontName,
-    brightness: Brightness.dark,
-    colorScheme: const ColorScheme.dark(
+  static ThemeData blue = _build(
+    const ColorScheme.dark(
       primary: Colors.blue,
       onSurface: Colors.white, // text stays white, blue reserved for accents
     ),
   );
 
-  static ThemeData green = ThemeData(
-    fontFamily: AppFonts.fontName,
-    brightness: Brightness.light,
-    colorScheme: const ColorScheme.light(
-      primary: Colors.green,
-      onSurface: Colors.black,
-    ),
+  static ThemeData green = _build(
+    const ColorScheme.light(primary: Colors.green, onSurface: Colors.black),
   );
 
   static ThemeData fromType(AppThemeType type) {

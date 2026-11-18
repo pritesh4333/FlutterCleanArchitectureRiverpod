@@ -134,8 +134,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: CommonText(e.toString(),fontFamily: AppFonts.fontName,
               fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
-              fontSize: 15,
-              color: Colors.black,)),
+              fontSize: 15,)),
           );
         },
       );
@@ -163,8 +162,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: CommonText(e.toString(),fontFamily: AppFonts.fontName,
               fontWeight: FontWeight.w200, // 👈 bold — maps to RethinkSans-Bold.ttf
-              fontSize: 15,
-              color: Colors.black,)),
+              fontSize: 15,)),
           );
         },
       );
